@@ -1,7 +1,9 @@
 name: Deploy to S3
 
 on:
-  workflow_dispatch:  # Allows manual triggering of the workflow
+  push:
+    branches:
+      - master
 
 jobs:
   deploy:
