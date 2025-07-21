@@ -1,261 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Picker</title>
-  <link rel="stylesheet" href="assets/css/dropdown.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker</title>
+    <link rel="stylesheet" href="assets/css/dropdown.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-  <div class="container">
+<div class="container">
 
     <div id="version">
-      <p>v.1.1.0</p>
+        <p>v.1.2.0</p>
     </div>
 
     <header class="header-container">
-      <h1><a href="index.html">♧ Color Picker</a></h1>
-      <nav>
-        <a href="#" class="active">Home</a>
-        <a href="settings.html">Settings</a>
-        <a href="about.html">About</a>
-      </nav>
+        <h1><a href="index.html">♧ Color Picker</a></h1>
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html">About</a>
+        </nav>
     </header>
 
     <div id="small-container" class="hidden">
-      <section class="card">
-        <button id="maximize" class="round-button">⛅︎</button>
-        <label for="colorPicker2"></label>
-        <input type="color" id="colorPicker2" class="round-input">
-      </section>
+        <section class="card">
+            <button id="maximize" class="round-button">⛅︎</button>
+            <label for="colorPicker2"></label>
+            <input type="color" id="colorPicker2" class="round-input">
+        </section>
     </div>
 
     <div id="main-container">
-      <section class="card">
-        <button id="minimize" class="buttonControl round-button">☀︎</button>
-        <h2>Select a Background Color</h2>
+        <section class="card">
+            <button id="minimize" class="buttonControl round-button">☀︎</button>
+            <h2>Select a Background Color</h2>
 
-        <div class="form-group">
-          <div id="colorDropdownDiv">
-            <div class="dropdown-button" id="dropdownButton" data-color="#e6e6fa">Lavender</div>
-            <div class="dropdown-content">
-              <div class="dropdown-option" data-color="#e6e6fa">
-                <div class="color-sample" style="background-color: #e6e6fa;"></div>
-                Lavender
-              </div>
-              <div class="dropdown-option" data-color="#ffb6c1">
-                <div class="color-sample" style="background-color: #ffb6c1;"></div>
-                Blush Pink
-              </div>
-              <div class="dropdown-option" data-color="#bdfcc9">
-                <div class="color-sample" style="background-color: #bdfcc9;"></div>
-                Pale Mint
-              </div>
-              <div class="dropdown-option" data-color="#b0e0e6">
-                <div class="color-sample" style="background-color: #b0e0e6;"></div>
-                Powder Blue
-              </div>
+            <div class="form-group">
+                <div id="colorDropdownDiv">
+                    <div class="dropdown-button" id="dropdownButton" data-color="#e6e6fa">Lavender</div>
+                    <div class="dropdown-content">
+                        <div class="dropdown-option" data-color="#e6e6fa">
+                            <div class="color-sample" style="background-color: #e6e6fa;"></div>
+                            Lavender
+                        </div>
+                        <div class="dropdown-option" data-color="#ffb6c1">
+                            <div class="color-sample" style="background-color: #ffb6c1;"></div>
+                            Blush Pink
+                        </div>
+                        <div class="dropdown-option" data-color="#bdfcc9">
+                            <div class="color-sample" style="background-color: #bdfcc9;"></div>
+                            Pale Mint
+                        </div>
+                        <div class="dropdown-option" data-color="#b0e0e6">
+                            <div class="color-sample" style="background-color: #b0e0e6;"></div>
+                            Powder Blue
+                        </div>
+                    </div>
+                </div>
+
+                <button id="applyColor" class="button">Apply</button>
             </div>
-          </div>
-
-          <button id="applyColor" class="button" >Apply</button>
-        </div>
 
 
-        <div class="form-group">
-          <label for="colorPicker">Pick a Custom Color:</label>
-          <input type="color" id="colorPicker" class="round-input">
-        </div>
-      </section>
+            <div class="form-group">
+                <label for="colorPicker">Pick a Custom Color:</label>
+                <input type="color" id="colorPicker" class="round-input">
+            </div>
+        </section>
     </div>
 
-  </div>
-  <script src="assets/js/dropdown.js"></script>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/dropdown.js"></script>
 <script>
-  const colorDropdown = document.getElementById('colorDropdown');
-  const applyColorButton = document.getElementById('applyColor');
-  const colorPicker = document.getElementById('colorPicker');
-  const colorPicker2 = document.getElementById('colorPicker2');
-  const minimizeButton = document.getElementById('minimize');
-  const maximizeButton = document.getElementById('maximize');
-  const smallContainer = document.getElementById('small-container');
-  const mainContainer = document.getElementById('main-container');
 
-  const mainHeaderContainer = document.querySelector('.header-container');
-  const mainHeaderIsHidden = 'false';
-  const mainContainerIsHidden = 'false';
-  const defaultColor = '#e6e6fa';
-
-  const transparenceValue = 0.2;
-
-  function hexToRgba(hex, alpha) {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  }
-
-  function hide() {
-    mainContainer.classList.add("hidden");
-    smallContainer.classList.remove("hidden");
-    localStorage.setItem('mainContainerIsHidden', 'true');
-  }
-  function show() {
-    smallContainer.classList.add("hidden");
-    mainContainer.classList.remove("hidden");
-    localStorage.setItem('mainContainerIsHidden', 'false');
-  }
-
-  function hideHeader() {
-    mainHeaderContainer.classList.add("hidden");
-    localStorage.setItem('mainHeaderIsHidden', 'true');
-  }
-  function showHeader() {
-    if (mainHeaderContainer.classList.contains("hidden")) {
-      mainHeaderContainer.classList.remove("hidden");
-      localStorage.setItem('mainHeaderIsHidden', 'false');
+    function hide() {
+        mainContainer.classList.add("hidden");
+        smallContainer.classList.remove("hidden");
+        localStorage.setItem('mainContainerIsHidden', 'true');
     }
-  }
-
-  minimizeButton.addEventListener('click', () => {
-    hide();
-    hideHeader()
-  });
-  maximizeButton.addEventListener('click', () => {
-    show();
-    showHeader()
-  });
-
-  if (colorDropdown) {
-    applyColorButton.addEventListener('click', () => {
-      const selectedColor = colorDropdown.value;
-      updateElements(selectedColor);
-      applyButton.setAttribute("data-color", selectedColor);
-    });
-  }
-
-  if (colorDropdownDiv) {
-    applyColorButton.addEventListener('click', () => {
-      updateElements(selectedColor);
-    });
-  }
-
-  if (colorPicker) {
-    colorPicker.addEventListener("input", (event) => {
-      document.body.style.backgroundColor = event.target.value;
-    });
-
-    colorPicker.addEventListener('change', (event) => {
-      const newColor = event.target.value;
-      updateColorDropdown(newColor);
-      updateElements(newColor);
-    });
-  }
-
-  if (colorPicker2) {
-    colorPicker2.addEventListener("input", (event) => {
-      document.body.style.backgroundColor = event.target.value;
-    });
-
-    colorPicker2.addEventListener('change', (event) => {
-      const newColor = event.target.value;
-      updateColorDropdown(newColor);
-      updateElements(newColor);
-    });
-  }
-
-  function updateColorDropdown(newColor) {
-    if (!newColor) {
-      return
+    function show() {
+        smallContainer.classList.add("hidden");
+        mainContainer.classList.remove("hidden");
+        localStorage.setItem('mainContainerIsHidden', 'false');
     }
-    newColor = newColor.toLowerCase();
+    function hideHeader() {
+        mainHeaderContainer.classList.add("hidden");
+        localStorage.setItem('mainHeaderIsHidden', 'true');
+    }
+    function showHeader() {
+        if (mainHeaderContainer.classList.contains("hidden")) {
+            mainHeaderContainer.classList.remove("hidden");
+            localStorage.setItem('mainHeaderIsHidden', 'false');
+        }
+    }
+
+    minimizeButton.addEventListener('click', () => {
+        hide();
+        hideHeader()
+    });
+    maximizeButton.addEventListener('click', () => {
+        show();
+        showHeader()
+    });
+
+    if (colorDropdown) {
+        applyColorButton.addEventListener('click', () => {
+            const selectedColor = colorDropdown.value;
+            updateElements(selectedColor);
+            applyButton.setAttribute("data-color", selectedColor);
+        });
+    }
 
     if (colorDropdownDiv) {
-      const existingOption = Array.from(dropdownContent.children).find(option =>
-        option.getAttribute("data-color") === newColor
-      );
-      if (!existingOption) {
-        // Create a new dropdown option
-        const newOption = document.createElement("div");
-        newOption.classList.add("dropdown-option");
-        newOption.setAttribute("data-color", newColor);
-
-
-        // Create the color sample div
-        const colorSample = document.createElement("div");
-        colorSample.classList.add("color-sample");
-        colorSample.style.backgroundColor = newColor;
-        colorSample.textContent = `✭`;
-
-        // Add the color sample and name to the new option
-        newOption.appendChild(colorSample);
-        newOption.appendChild(document.createTextNode(newColor));
-
-        // Append the new option to the dropdown content
-        dropdownContent.appendChild(newOption);
-
-        // Add click event listener to the new option
-        newOption.addEventListener("click", () => {
-          dropdownButton.textContent = newColor; // Update the button text
-          dropdownButton.setAttribute("data-color", newColor);
-          colorDropdownDiv.classList.remove("active"); // Close the dropdown
+        applyColorButton.addEventListener('click', () => {
+            updateElements(selectedColor);
         });
-      }
-    }
-    if (colorDropdown) {
-      const existingOption = Array.from(colorDropdown.options).find(option => option.value === newColor);
-      if (!existingOption) {
-        const newOption = document.createElement('option');
-        newOption.value = newColor;
-        newOption.textContent = newColor;
-        colorDropdown.appendChild(newOption);
-        colorDropdown.value = newColor;
-      }
-    }
-  }
-  function updateElements(newColor) {
-    if (!newColor) {
-      return;
     }
 
-    dropdownButton.setAttribute("data-color", newColor);
-    dropdownButton.textContent = newColor;
+    if (colorPicker) {
+        colorPicker.addEventListener("input", (event) => {
+            document.body.style.backgroundColor = event.target.value;
+        });
 
-    document.body.style.backgroundColor = newColor;
-
-    colorPicker.value = newColor;
-    colorPicker.style.value = newColor;
-    colorPicker.style.background = hexToRgba(newColor, transparenceValue);
-
-    colorPicker2.value = newColor;
-    colorPicker2.style.value = newColor;
-    colorPicker2.style.background = hexToRgba(newColor, transparenceValue);
-
-    localStorage.setItem('selectedColor', newColor);
-  }
-
-  window.onload = () => {
-    const savedColor = localStorage.getItem('selectedColor') || defaultColor;
-    const containerIsHidden = localStorage.getItem('mainContainerIsHidden') || 'false';
-    const headerContainerIsHidden = localStorage.getItem('mainHeaderIsHidden') || 'false';
-
-    if (containerIsHidden === 'true') {
-      hide();
-      hideHeader();
-    } else {
-      show();
-      showHeader();
+        colorPicker.addEventListener('change', (event) => {
+            const newColor = event.target.value;
+            updateColorDropdown(newColor);
+            updateElements(newColor);
+        });
     }
 
-    if (headerContainerIsHidden === 'true') {
-      hideHeader();
-    } else {
-      showHeader();
+    if (colorPicker2) {
+        colorPicker2.addEventListener("input", (event) => {
+            document.body.style.backgroundColor = event.target.value;
+        });
+
+        colorPicker2.addEventListener('change', (event) => {
+            const newColor = event.target.value;
+            updateColorDropdown(newColor);
+            updateElements(newColor);
+        });
     }
-    updateColorDropdown(savedColor);
-    updateElements(savedColor, savedColor);
-  };
+
+    window.onload = () => {
+        const savedColor = localStorage.getItem('selectedColor') || defaultColor;
+        const containerIsHidden = localStorage.getItem('mainContainerIsHidden') || 'false';
+        const headerContainerIsHidden = localStorage.getItem('mainHeaderIsHidden') || 'false';
+
+        if (containerIsHidden === 'true') {
+            hide();
+            hideHeader();
+        } else {
+            show();
+            showHeader();
+        }
+
+        if (headerContainerIsHidden === 'true') {
+            hideHeader();
+        } else {
+            showHeader();
+        }
+        updateColorDropdown(savedColor);
+        updateElements(savedColor, savedColor);
+    };
 </script>
 </body>
 </html>

@@ -1,55 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Picker</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="stylesheet" href="assets/css/settings.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/settings.css">
 </head>
 <body>
-  <header class="about-header">
+<header class="about-header">
     <div class="about-container">
-      <h1><a href="index.html">♤ Settings</a></h1>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="#" class="active">Settings</a>
-        <a href="about.html">About</a>
-      </nav>
+        <h1><a href="index.html">♤ Settings</a></h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="#" class="active">Settings</a>
+            <a href="about.html">About</a>
+        </nav>
     </div>
-  </header>
+</header>
 
-  <main class="about-container">
+<main class="about-container">
     <section class="card">
-      <div class="tab">
-        <button id="tabSettings" class="tabLinks">Configure</button>
-        <button id="tabPallet" class="tabLinks">Colour Pallet</button>
-      </div>
+        <div class="tab">
+            <button id="tabSettings" class="tabLinks">Configure</button>
+            <button id="tabPallet" class="tabLinks">Colour Pallet</button>
+        </div>
 
-      <div id="tabContentSettings" class="tabContent">
-        <label>
-          Clear saved preferences (stored in Local Storage)
-        </label>
-        <button class="button primary" id="clear-storage">Clear Local Storage</button>
-      </div>
+        <div id="tabContentSettings" class="tabContent">
+            <label>
+                Clear saved preferences (stored in Local Storage)
+            </label>
+            <button class="button primary" id="clear-storage">Clear Local Storage</button>
+        </div>
 
-      <div id="tabContentPallet" class="tabContent">
-        <div id="Colours"></div>
-      </div>
+        <div id="tabContentPallet" class="tabContent">
+            <div id="Colours"></div>
+        </div>
 
     </section>
-  </main>
+</main>
 
-
-
-  <script>
-      const resource = 'colors.json';
-      const clearStorageButton = document.getElementById('clear-storage');
-      const tabSettingsButton = document.getElementById('tabSettings');
-      const tabPalletButton = document.getElementById('tabPallet');
-      const colourSample = document.getElementById('colourSample');
-
-      let htmlContent = `
+<script src="assets/js/config.js"></script>
+<script>
+    let htmlContent = `
         <table>
           <thead>
             <tr>
@@ -62,67 +55,66 @@
           <tbody>
       `;
 
-      function openTab(evt, tabName) {
+    function openTab(evt, tabName) {
         let i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabContent");
         for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
+            tabcontent[i].style.display = "none";
         }
         tablinks = document.getElementsByClassName("tabLinks");
         for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
         document.getElementById(tabName).style.display = "block";
         evt.currentTarget.className += " active";
-      }
+    }
 
-      tabSettingsButton.addEventListener('click', (event) => {
+    tabSettingsButton.addEventListener('click', (event) => {
         openTab(event, "tabContentSettings");
-      });
-      tabPalletButton.addEventListener('click', (event) => {
+    });
+    tabPalletButton.addEventListener('click', (event) => {
         openTab(event, "tabContentPallet");
-      });
+    });
 
-
-      clearStorageButton.addEventListener('click', () => {
+    clearStorageButton.addEventListener('click', () => {
         localStorage.clear();
         document.body.style.backgroundColor = localStorage.getItem('selectedColor');
-      });
+    });
 
-      function readJsonFile(file, callback) {
-          let rawFile = new XMLHttpRequest();
-          rawFile.overrideMimeType("application/json");
-          rawFile.open("GET", file, true);
-          rawFile.onreadystatechange = function () {
-              if (rawFile.readyState === 4 && rawFile.status === 200) {
-                  callback(rawFile.responseText);
-              }
-          }
-          rawFile.send(null);
-      }
+    function readJsonFile(file, callback) {
+        let rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function () {
+            if (rawFile.readyState === 4 && rawFile.status === 200) {
+                callback(rawFile.responseText);
+            }
+        }
+        rawFile.send(null);
+    }
 
-      window.onload = () => {
+    window.onload = () => {
         document.body.style.backgroundColor = localStorage.getItem('selectedColor');
 
         document.getElementById("tabSettings").click();
         if (resource) {
-          readJsonFile(resource, function (QuoteJson) {
-            let QuoteObj = JSON.parse(QuoteJson);
+            readJsonFile(resource, function (QuoteJson) {
+                let QuoteObj = JSON.parse(QuoteJson);
 
-            let colorsGroups = QuoteObj.colorGroups;
+                let colorsGroups = QuoteObj.colorGroups;
 
-            if (colorsGroups) {
-              for (let colorGroup in colorsGroups) {
-                let colors = colorsGroups[colorGroup].colors;
-                htmlContent += `
+                if (colorsGroups) {
+                    for (let colorGroup in colorsGroups) {
+                        let colors = colorsGroups[colorGroup].colors;
+                        htmlContent += `
                       <tr><td colspan="4">${colorGroup}</td></tr>
                 `;
 
-                for (let colorName in colors) {
-                  if (colors.hasOwnProperty(colorName)) {
-                    let colorDetails = colors[colorName];
-                    let hexCode = colorDetails.hex.toLowerCase();
-                    htmlContent += `
+                        for (let colorName in colors) {
+                            if (colors.hasOwnProperty(colorName)) {
+                                let colorDetails = colors[colorName];
+                                let hexCode = colorDetails.hex.toLowerCase();
+                                htmlContent += `
                       <tr>
                         <td>
                           <div class="colourSample" data-color="${hexCode}" style="background-color: ${hexCode};"></div>
@@ -132,32 +124,32 @@
                         <td id="colorCode">${hexCode}</td>
                       </tr>
                     `;
-                  }
-                }
-              }
+                            }
+                        }
+                    }
 
-              htmlContent += `
+                    htmlContent += `
                   </tbody>
                 </table>
               `;
 
-              document.getElementById("Colours").innerHTML = htmlContent;
+                    document.getElementById("Colours").innerHTML = htmlContent;
 
-              const colorSamples = document.querySelectorAll(".colourSample");
+                    const colorSamples = document.querySelectorAll(".colourSample");
 
-              colorSamples.forEach(sample => {
-                sample.addEventListener("click", function () {
-                  let selectedColor = this.getAttribute("data-color")
-                  document.body.style.backgroundColor = selectedColor;
-                  localStorage.setItem('selectedColor', selectedColor);
-                });
-              });
+                    colorSamples.forEach(sample => {
+                        sample.addEventListener("click", function () {
+                            let selectedColor = this.getAttribute("data-color")
+                            document.body.style.backgroundColor = selectedColor;
+                            localStorage.setItem('selectedColor', selectedColor);
+                        });
+                    });
 
-            }
-          })
+                }
+            })
         }
-      }
+    }
 
-  </script>
+</script>
 </body>
 </html>

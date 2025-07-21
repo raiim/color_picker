@@ -25,7 +25,17 @@
 
 .tabContent {
   display: none;
-  padding: 20px 20px;
+  padding: 16px 16px;
   border: 1px solid #aaaaf1;
   border-top: none;
+}
+
+@media (max-width: 390px) {
+    td:nth-child(3), /* Hide the 3rd column */
+    th:nth-child(3) {
+        display: none;
+    }
+    .tabContent {
+      padding: 5px 5px;
+    }
 }
