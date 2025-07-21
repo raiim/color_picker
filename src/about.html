@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Picker</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="about-header">
+    <div class="about-container">
+      <h1><a href="index.html">♡ About Color Picker</a></h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" class="active">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="about-container">
+    <section class="card">
+      <h1>What is this project about?</h1>
+        <p>
+          This project serves as a tool to brighten up your meetings by allowing you to select or create background colors.
+          You can set the background color of your second monitor to improve lighting on your face during video calls.
+        </p>
+
+      <h1>Background Customization Guide</h1>
+
+        <h2>Simplify Your View with the ☀︎ Button</h2>
+        <p>
+            Easily declutter your workspace by clicking the <strong>☀︎ Button</strong>. This feature hides the navigation bar and the main background selector, leaving you with a clean interface and a compact control box. The control box includes two essential buttons:
+        </p>
+        <ul style="text-align: left;">
+            <li><strong>⛅︎</strong> – Use this button to restore the hidden elements whenever needed.</li>
+            <li><strong>❍</strong> – Select a custom color to personalize your background. Once you've chosen a color, click "Background" to add it to the dropdown menu in the main window for future use.</li>
+        </ul>
+
+        <div class="highlight">
+            <h2>How Does It Work?</h2>
+            <ol style="text-align: left;">
+                <li>Choose a background color:
+                    <ul style="padding-top: 0.5rem;">
+                        <li>Select a pre-existing color from the dropdown menu, or</li>
+                        <li>Use the <strong>Color Picker</strong> to create a custom shade.</li>
+                    </ul>
+                </li>
+                <li style="padding-top: 0.5rem;">Click <strong>Apply</strong> to instantly update the page background.</li>
+            </ol>
+        </div>
+
+        <p>Enjoy a more polished look and better lighting for every meeting or virtual interaction!</p>
+
+    </section>
+  </main>
+
+  <script>
+    window.onload = () => {
+      document.body.style.backgroundColor = localStorage.getItem('selectedColor');
+    }
+  </script>
+</body>
+</html>

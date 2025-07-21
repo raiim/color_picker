@@ -10,11 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Configure AWS credentials
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
@@ -22,7 +20,18 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    # Step 3: Sync files to S3
     - name: Sync files to S3
       run: |
-        aws s3 sync . s3://${{ secrets.S3_BUCKET_NAME }} --delete --exclude ".git/*" --exclude ".github/*"
+        aws s3 sync ./src/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
+    - name: Create artifact to S3
+      run: |        
+        mkdir -p build
+        cp -r src/* build/
+        cd build
+        zip -r app.zip .
+        cd ..
+        
+        aws s3 cp build/app.zip s3://${{ secrets.S3_BUCKET_NAME }}/build/app.zip
+
+        echo "Artifact uploaded to S3 bucket"
