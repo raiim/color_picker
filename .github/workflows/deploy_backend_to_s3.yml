@@ -1,4 +1,4 @@
-name: Deploy to S3
+name: Deploy to S3 (Backend)
 
 on:
   push:
@@ -22,10 +22,7 @@ jobs:
 
     - name: Create artifact to S3
       run: |        
-        mkdir -p backend
-        cp -r backend/* backend/
         cd backend
         zip -r backend_app.zip .
-        cd ..
         
         aws s3 cp backend/backend_app.zip s3://${{ secrets.S3_BUCKET_NAME }}/backend/backend_app.zip
