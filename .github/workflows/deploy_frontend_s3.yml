@@ -26,7 +26,7 @@ jobs:
 
     - name: Create artifact to S3
       run: |                
-        cd build
+        cd src
         zip -r frontend_app.zip .
         
         aws s3 cp frontend_app.zip s3://${{ secrets.S3_BUCKET_NAME }}/frontend/frontend_app.zip
