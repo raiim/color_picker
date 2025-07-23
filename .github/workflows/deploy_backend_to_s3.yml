@@ -26,3 +26,4 @@ jobs:
         zip -r backend_app.zip .
         
         aws s3 cp backend_app.zip s3://${{ secrets.S3_BUCKET_NAME }}/backend/backend_app.zip
+        rm backend_app.zip

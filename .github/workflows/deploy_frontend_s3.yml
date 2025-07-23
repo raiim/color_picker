@@ -1,4 +1,4 @@
-name: Deploy to S3
+name: Deploy to S3 (Frontend)
 
 on:
   push:
@@ -25,13 +25,11 @@ jobs:
         aws s3 sync ./src/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
     - name: Create artifact to S3
-      run: |        
-        mkdir -p build
-        cp -r src/* build/
+      run: |                
         cd build
-        zip -r app.zip .
-        cd ..
+        zip -r frontend_app.zip .
         
-        aws s3 cp build/app.zip s3://${{ secrets.S3_BUCKET_NAME }}/build/app.zip
-
+        aws s3 cp frontend_app.zip s3://${{ secrets.S3_BUCKET_NAME }}/frontend/frontend_app.zip
+        rm frontend_app.zip
+        
         echo "Artifact uploaded to S3 bucket"
